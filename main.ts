@@ -29,5 +29,14 @@ if (keys.length === 1) {
         formatFields(String(key), String(value))
       ).join("\n"),
     );
+  } else {
+    const fieldNames = Deno.args.slice(1);
+    const res = await redis.hmget(key, ...fieldNames);
+    console.log(
+      res.map((value, index) => formatFields(fieldNames[index], String(value)))
+        .join(
+          "\n",
+        ),
+    );
   }
 }
