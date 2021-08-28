@@ -16,7 +16,7 @@ redish test:redish:h
 
 where Deno will download the versioned dependencies into its cache, and run the utility with the restricted permissions specified in the `alias` command.
 
-![image](https://user-images.githubusercontent.com/899558/131216768-bbfb2561-a234-4624-bc54-1e6468ba7eb0.png)
+![image](https://user-images.githubusercontent.com/899558/131217147-b0de7608-4e08-4cb0-8484-a924514c2b93.png)
 
 <hr>
 <a href='https://twitter.com/EvanSummers16'>https://twitter.com/EvanSummers16</a>
