@@ -1,5 +1,5 @@
 import { connect } from "https://deno.land/x/redis/mod.ts";
-import { exitWithErrorText, formatField, unflattenRedis } from "./utils.ts";
+import { exitWithErrorText, formatFields, unflattenRedis } from "./utils.ts";
 
 const redis = await connect({
   hostname: "127.0.0.1",
@@ -26,11 +26,8 @@ if (keys.length === 1) {
     const res = unflattenRedis(await redis.hgetall(key));
     console.log(
       Array.from(res.entries()).map(([key, value]) =>
-        formatField(String(key), String(value))
-      )
-        .join(
-          "\n",
-        ),
+        formatFields(String(key), String(value))
+      ).join("\n"),
     );
   }
 }

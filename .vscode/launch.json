@@ -12,7 +12,8 @@
         "run",
         "--inspect",
         "--allow-all",
-        "test:deno-redish:sample:h"
+        "main.ts",
+        "test:redish:h"
       ],
       "attachSimplePort": 9229
     }

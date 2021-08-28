@@ -13,34 +13,28 @@ export function unflattenRedis(array: string[]): Map<String, String> {
   return map;
 }
 
-function formatFieldColors(key: string, value: string) {
-  const columns = [];
-  columns.push(Colors.cyan(key));
-  columns.push(Colors.white(value));
-  if (/^1[6-9][0-9]{11}$/.test(value)) {
-    columns.push(Colors.gray(new Date(parseInt(value)).toISOString()));
-  }
-  return columns.join(" ");
-}
-
-function formatFieldPlain(key: string, value: string) {
-  const columns = [];
-  columns.push(key);
-  columns.push(value);
-  if (/^1[6-9][0-9]{11}$/.test(value)) {
-    columns.push(new Date(parseInt(value)).toISOString());
-  }
-  return columns.join(" ");
-}
-
-export function formatField(
+export function formatFields(
   key: string,
   value: string,
   options = { colorize: true },
 ) {
+  const columns = formatColumns(key, value);
   if (options.colorize) {
-    return formatFieldColors(key, value);
-  } else {
-    return formatFieldPlain(key, value);
+    columns[0] = Colors.cyan(columns[0]);
+    columns[1] = Colors.white(columns[1]);
+    if (columns[2]) {
+      columns[2] = Colors.gray(columns[2]);
+    }
   }
+  return columns.join(" ");
+}
+
+function formatColumns(key: string, value: string) {
+  const columns = [];
+  columns.push(key);
+  columns.push(value);
+  if (/^1[6-9][0-9]{11}$/.test(value)) {
+    columns.push((new Date(parseInt(value))).toISOString());
+  }
+  return columns;
 }
