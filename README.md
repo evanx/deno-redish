@@ -11,10 +11,12 @@ alias redish='deno -q run --allow-net=127.0.0.1:6379 https://raw.githubuserconte
 Then this `redish` alias can be used relatively securely as follows:
 
 ```shell
-redish test:redish:h
+redish <hashes key> <field> <field> ...
 ```
 
-where Deno will download the versioned dependencies into its cache, and run the utility with the restricted permissions specified in the `alias` command.
+If no field names are specified, then all fields are printed using an `HGETALL` command.
+
+Deno will download the versioned dependencies into its cache, and run the utility with the restricted permissions specified in the `alias` command.
 
 ![image](https://user-images.githubusercontent.com/899558/131217147-b0de7608-4e08-4cb0-8484-a924514c2b93.png)
 
