@@ -26,6 +26,7 @@ if (Deno.args.length === 0) {
       "Usage: <key, prefix or pattern>",
     );
   }
+  printInfoHeader(`Found matching keys:`);
   console.log(keys.join("\n"));
   exitOk();
 }
@@ -43,7 +44,9 @@ if (keys.length === 0) {
   exitWithErrorText("No matching keys");
 }
 if (keys.length > 1) {
-  exitWithErrorText(`Matching keys:\n${keys.join("\n")}`);
+  printInfoHeader(`Found matching keys:`);
+  console.log(keys.join("\n"));
+  exitOk();
 }
 const foundKey = keys[0];
 printInfoHeader(`Found key: ${foundKey}`);
