@@ -25,8 +25,8 @@ Deno will download the versioned dependencies into its cache, and run the utilit
 
 ### Revision History
 
-0.0.1 - initial prototype
-0.0.2 - scanning keys
+- 0.0.1 on 2021-08-29 by ES: initial prototype
+- 0.0.2 on 2021-08-28 by ES: scanning keys
 
 <hr>
 <a href='https://twitter.com/EvanSummers16'>https://twitter.com/EvanSummers16</a>
