@@ -1,8 +1,27 @@
 import * as Colors from "https://deno.land/std/fmt/colors.ts";
+import { Redis } from "https://deno.land/x/redis/mod.ts";
+
+export function matchGroup(string: string, regex: RegExp) {
+  const matcher = string.match(regex);
+  return matcher ? matcher.pop() : null;
+}
+
+export function exitOk() {
+  Deno.exit(0);
+}
 
 export function exitWithErrorText(text: string) {
-  console.error(text);
+  printInfoHeader(text);
+  printInfoFooter();
   Deno.exit(1);
+}
+
+export function printInfoHeader(text: string) {
+  console.error(Colors.blue(text));
+}
+
+export function printInfoFooter() {
+  console.error(Colors.gray("See https://github.com/evanx/redish"));
 }
 
 export function unflattenRedis(array: string[]): Map<String, String> {
@@ -37,4 +56,25 @@ function formatColumns(key: string, value: string) {
     columns.push((new Date(parseInt(value))).toISOString());
   }
   return columns;
+}
+
+export async function scanRedisKeys(
+  redis: Redis,
+  pattern: string,
+  {
+    cursor = 0,
+    count = 10,
+    type = "",
+    redisVersion = "5",
+  },
+) {
+  const [_, keys] = await redis.scan(cursor, {
+    pattern,
+    count,
+    type,
+  });
+  if (type && parseInt(redisVersion[0]) < 6) {
+    return keys.filter((key) => key.endsWith(":h"));
+  }
+  return keys;
 }
