@@ -68,13 +68,18 @@ export async function scanRedisKeys(
     redisVersion = "5",
   },
 ) {
-  const [_, keys] = await redis.scan(cursor, {
-    pattern,
-    count,
-    type,
-  });
-  if (type && parseInt(redisVersion[0]) < 6) {
+  if (type && parseInt(redisVersion[0]) >= 6) {
+    const [_, keys] = await redis.scan(cursor, {
+      pattern,
+      count,
+      type,
+    });
+    return keys;
+  } else {
+    const [_, keys] = await redis.scan(cursor, {
+      pattern,
+      count,
+    });
     return keys.filter((key) => key.endsWith(":h"));
   }
-  return keys;
 }
