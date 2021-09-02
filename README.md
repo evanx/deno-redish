@@ -5,7 +5,7 @@ Deno CLI utility for pretty printing Redis hashes
 Recommended usage is to `alias` the `deno run` command with restricted access to Redis only, as follows:
 
 ```shell
-alias redish='deno -q run --allow-net=127.0.0.1:6379 https://raw.githubusercontent.com/evanx/deno-redish/v0.0.2/main.ts'
+alias redish='deno -q run --allow-net=127.0.0.1:6379 https://raw.githubusercontent.com/evanx/deno-redish/v0.0.3/main.ts'
 ```
 
 Then this `redish` alias can be used relatively securely as follows:
@@ -27,6 +27,7 @@ Deno will download the versioned dependencies into its cache, and run the utilit
 
 - 0.0.1 on 2021-08-29 by ES: initial prototype
 - 0.0.2 on 2021-08-28 by ES: scanning keys
+- 0.0.3 on 2021-09-02 by ES: fix scanning keys
 
 <hr>
 <a href='https://twitter.com/EvanSummers16'>https://twitter.com/EvanSummers16</a>
