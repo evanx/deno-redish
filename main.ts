@@ -20,13 +20,13 @@ const redisVersion = matchGroup(
 );
 
 if (Deno.args.length === 0) {
-  const keys = await scanRedisKeys(redis, "*", { type: "hash" });
+  const keys = await scanRedisKeys(redis, "*", { type: "hash", limit: 10 });
   if (!keys.length) {
     exitWithErrorText(
       "Usage: <key, prefix or pattern>",
     );
   }
-  printInfoHeader(`Found matching keys:`);
+  printInfoHeader(`Found matching hashes keys:`);
   console.log(keys.join("\n"));
   exitOk();
 }
@@ -38,6 +38,7 @@ if (type === "hash") {
 }
 const pattern = argKey.includes("*") ? argKey : `${argKey}*`;
 const keys = await scanRedisKeys(redis, pattern, {
+  limit: 10,
   type: "hash",
 });
 if (keys.length === 0) {

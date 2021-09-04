@@ -1,5 +1,5 @@
 import * as Colors from "https://deno.land/std/fmt/colors.ts";
-import { Redis } from "https://deno.land/x/redis/mod.ts";
+import { Redis, SimpleStringReply } from "https://deno.land/x/redis/mod.ts";
 
 export function matchGroup(string: string, regex: RegExp) {
   const matcher = string.match(regex);
@@ -63,7 +63,7 @@ export async function scanRedisKeys(
   pattern: string,
   {
     cursor = 0,
-    count = 10,
+    limit = 10,
     type = "",
     redisVersion = "5",
   },
@@ -71,15 +71,23 @@ export async function scanRedisKeys(
   if (type && parseInt(redisVersion[0]) >= 6) {
     const [_, keys] = await redis.scan(cursor, {
       pattern,
-      count,
+      count: limit,
       type,
     });
     return keys;
   } else {
     const [_, keys] = await redis.scan(cursor, {
       pattern,
-      count,
+      count: limit * 5,
     });
-    return keys.filter((key) => key.endsWith(":h"));
+    const pl = redis.pipeline();
+    keys.map((key) => pl.type(key));
+    const replies = await pl.flush();
+    return replies.map((reply, index) => ({
+      key: keys[index],
+      type: (reply as SimpleStringReply).value(),
+    })).filter(({ type }, index) => type === "hash").slice(0, limit).map((
+      { key },
+    ) => key);
   }
 }
