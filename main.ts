@@ -33,6 +33,7 @@ if (Deno.args.length === 0) {
 const argKey = Deno.args[0];
 const type = await redis.type(argKey);
 if (type === "hash") {
+  printInfoHeader(argKey);
   await processKey(argKey);
   exitOk();
 }
